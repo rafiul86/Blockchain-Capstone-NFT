@@ -1,5 +1,5 @@
 ## Blockchain Capstone
 
-The capstone a decentralized housing product. 
+The capstone is a decentralized housing product. 
 
 
