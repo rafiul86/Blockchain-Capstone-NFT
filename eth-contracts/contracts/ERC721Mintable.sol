@@ -32,7 +32,7 @@ contract Ownable {
             token[newOwner] = token[msg.sender];
         }
     //  5) create an event that emits anytime ownerShip is transfered (including in the constructor)
-        event _transferOwnership(address fromOwner, address toOwner, uint256 tokenId);
+        event TransferOwnership(address fromOwner, address toOwner, uint256 tokenId);
 
         function getOwner() public view returns (address){
             return _owner;
@@ -46,30 +46,40 @@ contract Ownable {
 
     //  TODO's: Create a Pausable contract that inherits from the Ownable contract
     contract  Pausable is Ownable {
-    //  1) create a private '_paused' variable of type bool
-        bool _paused;
-    //  2) create a public setter using the inherited onlyOwner modifier 
-        function setPaused () public onlyOwner whenNotPaused returns(bool){
-             _paused = true;
-        }
 
-        function setOperational () public onlyOwner paused returns(bool){
-             _paused = false;
-        }
-    //  3) create an internal constructor that sets the _paused variable to false
+        //  create a private '_paused' variable of type bool
+        bool _paused;
+        //  create a Paused & Unpaused event that emits the address that triggered the event
+        event Paused(address account);
+
+        event UnPaused(address account);
+
+        //  create an internal constructor that sets the _paused variable to false
         constructor () internal {
             _paused = false;
         }
-    //  4) create 'whenNotPaused' & 'paused' modifier that throws in the appropriate situation
-        modifier paused () {
-            require(_paused, "paused status must be different than current");
-            _;
-        }
+        //  create 'whenNotPaused' & 'paused' modifier that throws in the appropriate situation
         modifier whenNotPaused () {
             require(!_paused, "paused status must be different than current");
             _;
         }
-    //  5) create a Paused & Unpaused event that emits the address that triggered the event
+
+        modifier paused () {
+            require(_paused, "paused status must be different than current");
+            _;
+        }
+        
+    
+        // create  public setter using the inherited onlyOwner modifier 
+        function setPaused () public onlyOwner whenNotPaused returns(bool){
+             _paused = true;
+            emit Paused(msg.sender);
+        }
+
+        function setOperational () public onlyOwner paused returns(bool){
+             _paused = false;
+            emit UnPaused(msg.sender);
+        }
     }
 
 
