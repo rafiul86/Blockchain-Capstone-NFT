@@ -12,13 +12,15 @@ import "./ERC721Mintable.sol";
 contract SolnSquareVerifier is ERC721MintableComplete{
     string private _name;
     string private _symbol;
-Verifier public squareVerifier;
-    constructor(string memory name, string memory symbol,address verifierAddress) public
+    string private _baseTokenURI;
+    Verifier public squareVerifier;
+
+    constructor(address verifierAddress) public
     
     {       
-            _name = name;
-         _symbol = symbol;
-
+            _name = "Rafiul Token";
+            _symbol = "RHT";
+            _baseTokenURI = "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
             squareVerifier = Verifier(verifierAddress);
     }
 // TODO define a solutions struct that can hold an index & an address
