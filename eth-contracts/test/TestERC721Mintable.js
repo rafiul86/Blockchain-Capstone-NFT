@@ -1,5 +1,5 @@
-var ERC721MintableComplete = artifacts.require('ERC721MintableComplete');
-
+const SolnSquareVerifier = artifacts.require('SolnSquareVerifier');
+// const ERC721Enumerable = artifacts.require('ERC721Enumerable');
 contract('TestERC721Mintable', accounts => {
 
     const account_one = accounts[0];
@@ -7,14 +7,26 @@ contract('TestERC721Mintable', accounts => {
 
     describe('match erc721 spec', function () {
         beforeEach(async function () { 
-            this.contract = await ERC721MintableComplete.new({from: account_one});
+            // this.owner = account_one;
+            // this.verifier = await this.verifier.new({from: this.owner})
+            // this.contract = await SolnSquareVerifier.new(this.verifier.address ,{from: account_one});
 
             // TODO: mint multiple tokens
+            // for (i = 1; i <= 10; i++) {
+            //     if (i == 3 || i == 5) {
+            //         await SolnSquareVerifier.mint(account_one, i, {from: account_one});
+            //     }
+                
+            //     else {
+            //         await SolnSquareVerifier.mint(account_two, i, {from: account_one});
+            //     }
+            // }
         })
 
         it('should return total supply', async function () { 
            let initialSupply = 1;
-           let supplyCount = await ERC721MintableComplete.totalSupply()
+           let supplyCount = await SolnSquareVerifier.totalSupply()
+           console.log(supplyCount, "madari")
            assert.equal(initialSupply, supplyCount, "Initial totalSupply should be 0")
         })
 
