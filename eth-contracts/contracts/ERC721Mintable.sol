@@ -550,7 +550,7 @@ contract ERC721MintableComplete is ERC721Metadata{
 //  1) Pass in appropriate values for the inherited ERC721Metadata contract
 //      - make the base token uri: https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/
     constructor(string memory name, string memory symbol) 
-    ERC721Metadata(name, symbol, "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/") 
+    ERC721Metadata("Rafiul Token","RHT",  "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/") 
 
     public
     {
