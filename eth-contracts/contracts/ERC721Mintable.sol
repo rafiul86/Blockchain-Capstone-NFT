@@ -16,13 +16,16 @@ contract Ownable {
      }
 
      mapping(uint256 => InitialToken) tokens;
-
+    
+    //  create an event that emits anytime ownerShip is transfered (including in the constructor)
+        event TransferOwnership(address toOwner);
     //  TODO's
     //  1) create a private '_owner' variable of type address with a public getter function
         address private _owner;
-    //  2) create an internal constructor that sets the _owner var to the creater of the contract 
+    //  2) create an internal constructor that sets the _owner var to the creator of the contract 
         constructor()internal{
             _owner = msg.sender;
+             emit TransferOwnership(_owner);
         }
     //  3) create an 'onlyOwner' modifier that throws if called by any account other than the owner.
         modifier onlyOwner(){
@@ -31,14 +34,14 @@ contract Ownable {
         }
     //  4) fill out the transferOwnership function
          function transferOwnership(address newOwner, uint256 tokenId) public onlyOwner {
-            require(newOwner != address(0), "New owner must be an address");
+            require(newOwner != address(0), "New owner must be a valid address");
             tokens[tokenId].tokenOwner = newOwner;
+            emit TransferOwnership(newOwner);
         }
-    //  5) create an event that emits anytime ownerShip is transfered (including in the constructor)
-        event TransferOwnership(address fromOwner, address toOwner, uint256 tokenId);
 
-        function getOwner() public view returns (address){
-            return _owner;
+        function getOwner(uint256 tokenId) public view returns (address){
+            require(tokenId != 0, "Please enter an valid token Id");
+            return tokens[tokenId].tokenOwner;
         }
     // function transferOwnership(address newOwner) public onlyOwner {
     //     // TODO add functionality to transfer control of the contract to a newOwner.
@@ -51,14 +54,14 @@ contract Ownable {
     contract  Pausable is Ownable {
 
         //  create a private '_paused' variable of type bool
-        bool _paused;
+             bool _paused;
         //  create a Paused & Unpaused event that emits the address that triggered the event
-        event Paused(address account);
+             event Paused(address account);
 
-        event UnPaused(address account);
+             event UnPaused(address account);
 
         //  create an internal constructor that sets the _paused variable to false
-        constructor () internal {
+              constructor () internal {
             _paused = false;
         }
         //  create 'whenNotPaused' & 'paused' modifier that throws in the appropriate situation
@@ -254,7 +257,7 @@ contract ERC721 is Pausable, ERC165 {
     function _mint(address to, uint256 tokenId) internal {
 
         // TODO revert if given tokenId already exists or given address is invalid
-            require(!_exists(tokenId), "tokenId already exists or given address is invalid");
+            require(_exists(tokenId), "tokenId already exists or given address is invalid");
         // TODO mint tokenId to given address & increase token count of owner
             _tokenOwner[tokenId] = to;
             Counters.increment(_ownedTokensCount[to]);
