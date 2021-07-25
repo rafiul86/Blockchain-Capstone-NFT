@@ -14,7 +14,7 @@ contract('TestERC721Mintable', accounts => {
 
         it('should return total supply', async function () { 
            let initialSupply = 1;
-           let supplyCount = await ERC721MintableComplete.totalSupply.call()
+           let supplyCount = await ERC721MintableComplete.totalSupply()
            assert.equal(initialSupply, supplyCount, "Initial totalSupply should be 0")
         })
 

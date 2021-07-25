@@ -5528,12 +5528,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xF1055B0BDa0537b58ba249F7d899C0581aa755B6",
-      "transactionHash": "0x32387fdefec8347c01985f796e34c812396d8ea99cbe2383eed354aef41a3c70"
+      "address": "0x711438F91F89c9Bc9d8a434531bFF3902D41C564",
+      "transactionHash": "0x560b79b4564aa5aa7c5296fbb2a193325b5eda2ecc0dcdc0e6d0387b229ac046"
     }
   },
   "schemaVersion": "3.0.9",
-  "updatedAt": "2021-07-25T18:22:03.050Z",
+  "updatedAt": "2021-07-25T18:27:01.796Z",
   "devdoc": {
     "methods": {
       "isApprovedForAll(address,address)": {

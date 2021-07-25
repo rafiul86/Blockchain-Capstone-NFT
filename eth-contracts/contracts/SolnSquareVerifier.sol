@@ -13,6 +13,8 @@ contract SolnSquareVerifier is ERC721MintableComplete{
     string private _name;
     string private _symbol;
     string private _baseTokenURI;
+    
+    // Zokrates generated solidity contract
     Verifier public squareVerifier;
 
     constructor(address verifierAddress) public

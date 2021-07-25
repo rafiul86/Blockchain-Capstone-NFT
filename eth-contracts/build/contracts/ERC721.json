@@ -30053,7 +30053,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.9",
-  "updatedAt": "2021-07-25T18:21:53.525Z",
+  "updatedAt": "2021-07-25T18:26:53.629Z",
   "devdoc": {
     "methods": {
       "isApprovedForAll(address,address)": {

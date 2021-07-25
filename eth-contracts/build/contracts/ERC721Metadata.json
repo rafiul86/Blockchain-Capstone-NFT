@@ -30233,7 +30233,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.9",
-  "updatedAt": "2021-07-25T18:21:53.595Z",
+  "updatedAt": "2021-07-25T18:26:53.695Z",
   "devdoc": {
     "methods": {
       "isApprovedForAll(address,address)": {
