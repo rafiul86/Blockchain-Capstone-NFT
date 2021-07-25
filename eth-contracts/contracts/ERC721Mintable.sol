@@ -4,7 +4,7 @@ import 'openzeppelin-solidity/contracts/utils/Address.sol';
 import 'openzeppelin-solidity/contracts/drafts/Counters.sol';
 import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
 import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
-import 'openzeppelin-solidity/contracts/lifecycle/Pausable.sol';
+// import 'openzeppelin-solidity/contracts/lifecycle/Pausable.sol';
 import 'openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol';
 // import 'openzeppelin-solidity/contracts/lifecycle/IERC721.sol';
 import "./Oraclize.sol";
@@ -44,12 +44,34 @@ contract Ownable {
     // }
 }
 
-//  TODO's: Create a Pausable contract that inherits from the Ownable contract
-//  1) create a private '_paused' variable of type bool
-//  2) create a public setter using the inherited onlyOwner modifier 
-//  3) create an internal constructor that sets the _paused variable to false
-//  4) create 'whenNotPaused' & 'paused' modifier that throws in the appropriate situation
-//  5) create a Paused & Unpaused event that emits the address that triggered the event
+    //  TODO's: Create a Pausable contract that inherits from the Ownable contract
+    contract  Pausable is Ownable {
+    //  1) create a private '_paused' variable of type bool
+        bool _paused;
+    //  2) create a public setter using the inherited onlyOwner modifier 
+        function setPaused () public onlyOwner whenNotPaused returns(bool){
+             _paused = true;
+        }
+
+        function setOperational () public onlyOwner paused returns(bool){
+             _paused = false;
+        }
+    //  3) create an internal constructor that sets the _paused variable to false
+        constructor () internal {
+            _paused = false;
+        }
+    //  4) create 'whenNotPaused' & 'paused' modifier that throws in the appropriate situation
+        modifier paused () {
+            require(_paused, "paused status must be different than current");
+            _;
+        }
+        modifier whenNotPaused () {
+            require(!_paused, "paused status must be different than current");
+            _;
+        }
+    //  5) create a Paused & Unpaused event that emits the address that triggered the event
+    }
+
 
 contract ERC165 {
     bytes4 private constant _INTERFACE_ID_ERC165 = 0x01ffc9a7;
