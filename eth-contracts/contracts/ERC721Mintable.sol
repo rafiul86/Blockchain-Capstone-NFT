@@ -10,8 +10,12 @@ import 'openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol';
 import "./Oraclize.sol";
 
 contract Ownable {
-           
-     mapping(address => uint256) token;
+
+     struct InitialToken{
+         address tokenOwner;
+     }
+
+     mapping(uint256 => InitialToken) tokens;
 
     //  TODO's
     //  1) create a private '_owner' variable of type address with a public getter function
@@ -26,9 +30,9 @@ contract Ownable {
             _;
         }
     //  4) fill out the transferOwnership function
-         function transferOwnership(address newOwner) public onlyOwner {
+         function transferOwnership(address newOwner, uint256 tokenId) public onlyOwner {
             require(newOwner != address(0), "New owner must be an address");
-            token[newOwner] = token[msg.sender];
+            tokens[tokenId].tokenOwner = newOwner;
         }
     //  5) create an event that emits anytime ownerShip is transfered (including in the constructor)
         event TransferOwnership(address fromOwner, address toOwner, uint256 tokenId);
