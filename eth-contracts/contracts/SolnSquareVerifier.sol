@@ -54,38 +54,30 @@ function mintToken(
             uint256 tokenId,
             uint256 index, 
             uint[2] memory a,
-            uint[2] memory a_p,
             uint[2][2] memory b,
-            uint[2] memory b_p,
             uint[2] memory c,
-            uint[2] memory c_p,
-            uint[2] memory h,
-            uint[2] memory k,
             uint[2] memory input)
 
              public
+             returns (bool)
               {
 //  - make sure the solution is unique (has not been used before)
-    require(squareVerifier.verifyTx(a, a_p, b, b_p, c, c_p, h, k, input), "Can't mint a new token, Verification is failed");
+    require(squareVerifier.verifyTx(a, b, c, input), "Can't mint a new token, Verification is failed");
     require(addSolutionsToArray(index, msg.sender), "solution used is not unique");
 //  - make sure you handle metadata as well as tokenSuplly
     require(index < totalSupply(), "Invalid Token index");
     mint(msg.sender,tokenId);
     setTokenURI(tokenId);
+    return true;
     }
 }
 //  TODO define a contract call to the zokrates generated solidity contract <Verifier> or <renamedVerifier>
 contract  Verifier{
         function verifyTx(
-            uint[2] memory a,
-            uint[2] memory a_p,
-            uint[2][2] memory b,
-            uint[2] memory b_p,
-            uint[2] memory c,
-            uint[2] memory c_p,
-            uint[2] memory h,
-            uint[2] memory k,
-            uint[2] memory input
+        uint[2] memory a,
+        uint[2][2] memory b,
+        uint[2] memory c,
+        uint[2] memory input
         ) public returns (bool r);
 }
 
