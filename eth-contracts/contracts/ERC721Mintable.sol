@@ -496,7 +496,7 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
                 string baseTokenURI;
             }         
 
-        mapping(uint256 => Token)private _tokenURIs;
+        mapping(uint256 => Token) private _tokenURIs;
 
     bytes4 private constant _INTERFACE_ID_ERC721_METADATA = 0x5b5e139f;
     /*
@@ -551,8 +551,9 @@ contract ERC721Full is ERC721Metadata{
     // bytes4 private constant _INTERFACE_ID_ERC721_METADATA = 0x5b5e139f;
 //  1) Pass in appropriate values for the inherited ERC721Metadata contract
 //      - make the base token uri: https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/
-    constructor() 
-        ERC721Metadata("Rafiul tOKEN", "rtk", "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/") 
+    constructor(string memory name,
+                string memory symbol) 
+        ERC721Metadata(name, symbol, "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/") 
         public
     {
     }

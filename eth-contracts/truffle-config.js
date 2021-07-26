@@ -47,8 +47,7 @@ module.exports = {
         return new HDWalletProvider("decade reduce donkey bottom uncle electric practice sun giggle predict palace mango", "https://rinkeby.infura.io/v3/12df196bcfcb4bd583785b1a615aef47")
       },
       network_id :4,
-      gas : 4500000,
-      price : 10000000000
+      gas : 4500000
     },
      development: {
       host: "127.0.0.1",     // Localhost (default: none)

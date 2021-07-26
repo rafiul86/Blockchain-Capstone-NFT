@@ -11,10 +11,12 @@ contract SolnSquareVerifier is ERC721Full{
     // Zokrates generated solidity contract
     Verifier public squareVerifier;
 
-    constructor(address verifierAddress) 
-          
+    string  _name;
+    string _symbol;
+    constructor(string memory name, string memory symbol, address verifierAddress) 
+      ERC721Full(name, symbol)    
         public
-    {
+    {   
         squareVerifier = Verifier(verifierAddress);
     }
     
