@@ -1,6 +1,5 @@
 pragma solidity >=0.5.0;
-
-// import "../../zokrates/code/square/verifier.sol";
+import "../../zokrates/code/square/verifier.sol";
 import "./ERC721Mintable.sol";
 
 
@@ -71,15 +70,15 @@ function mintToken(
     return true;
     }
 }
-//  TODO define a contract call to the zokrates generated solidity contract <Verifier> or <renamedVerifier>
-contract  Verifier{
-        function verifyTx(
-        uint[2] memory a,
-        uint[2][2] memory b,
-        uint[2] memory c,
-        uint[2] memory input
-        ) public returns (bool r);
-}
+// //  TODO define a contract call to the zokrates generated solidity contract <Verifier> or <renamedVerifier>
+// contract  Verifier{
+//         function verifyTx(
+//         uint[2] memory a,
+//         uint[2][2] memory b,
+//         uint[2] memory c,
+//         uint[2] memory input
+//         ) public returns (bool r);
+// }
 
 
   
