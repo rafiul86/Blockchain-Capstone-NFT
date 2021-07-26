@@ -6,22 +6,18 @@ import "./ERC721Mintable.sol";
 
 
 // TODO define another contract named SolnSquareVerifier that inherits from your ERC721Mintable class
-contract SolnSquareVerifier is ERC721MintableComplete{
-    string private _name;
-    string private _symbol;
-    string private _tokenURI;
+contract SolnSquareVerifier is ERC721Full{
     
     // Zokrates generated solidity contract
     Verifier public squareVerifier;
 
-    constructor(address verifierAddress) public
-    
-    {       
-            _name = "Rafiul Token";
-            _symbol = "RHT";
-            _tokenURI = "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
-            squareVerifier = Verifier(verifierAddress);
+    constructor(address verifierAddress) 
+          
+        public
+    {
+        squareVerifier = Verifier(verifierAddress);
     }
+    
 // TODO define a solutions struct that can hold an index & an address
 struct Solution{
     bytes32 index;
@@ -72,18 +68,10 @@ function mintToken(
             require(index < totalSupply(), "Invalid Token index");
             mint(msg.sender,tokenId);
             //  - make sure you handle metadata as well as tokenSuplly
-            setTokenURI(tokenId);
+            setTokenURI("https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/", tokenId);
             return true;
         }
      }
     }
 }
-// //  TODO define a contract call to the zokrates generated solidity contract <Verifier> or <renamedVerifier>
-// contract  Verifier{
-//         function verifyTx(
-//         uint[2] memory a,
-//         uint[2][2] memory b,
-//         uint[2] memory c,
-//         uint[2] memory input
-//         ) public returns (bool r);
-// }
+

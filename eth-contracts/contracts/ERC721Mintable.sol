@@ -488,12 +488,12 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
 
     string private _name;
     string private _symbol;
-    string private _tokenURI;
+    string private _baseTokenURI;
     // TODO: create private mapping of tokenId's to token uri's called '_tokenURIs'
         struct  Token{
                 string name;
                 string symbol;
-                string tokenURI;
+                string baseTokenURI;
             }         
 
         mapping(uint256 => Token)private _tokenURIs;
@@ -507,11 +507,13 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
      */
 
 
-    constructor (string memory name, string memory symbol, string memory tokenURI) public {
+    constructor (string memory name,
+                string memory symbol,
+                string memory baseTokenURI) public {
          // TODO: set instance var values
             _name = name;
             _symbol = symbol;
-            _tokenURI = tokenURI;
+            _baseTokenURI = baseTokenURI;
         _registerInterface(_INTERFACE_ID_ERC721_METADATA);
     }
 
@@ -519,7 +521,7 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
 
     function baseTokenURI(uint256 tokenId) external view returns (string memory) {
         require(_exists(tokenId));
-        return _tokenURIs[tokenId].tokenURI;
+        return _tokenURIs[tokenId].baseTokenURI;
     }
     function name(uint256 tokenId) external view returns (string memory) {
         require(_exists(tokenId));
@@ -537,25 +539,22 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
     // TIP #1: use strConcat() from the imported oraclizeAPI lib to set the complete token URI
     // TIP #2: you can also use uint2str() to convert a uint to a string
     // see https://github.com/oraclize/ethereum-api/blob/master/oraclizeAPI_0.5.sol for strConcat()
-    function setTokenURI(uint256 tokenId) public{
+    function setTokenURI(string memory baseTokenURI, uint256 tokenId) public{
         require(_exists(tokenId));
-        usingOraclize.strConcat(_tokenURIs[tokenId].tokenURI, uint2str(tokenId));
+        usingOraclize.strConcat(baseTokenURI, uint2str(tokenId));
     }    
 }
 
 //  TODO's: Create CustomERC721Token contract that inherits from the ERC721Metadata contract. You can name this contract as you please
-contract ERC721MintableComplete is ERC721Metadata{
-    string private _name;
-    string private _symbol;
-    string private _tokenURI;
+contract ERC721Full is ERC721Metadata{
+    
+    // bytes4 private constant _INTERFACE_ID_ERC721_METADATA = 0x5b5e139f;
 //  1) Pass in appropriate values for the inherited ERC721Metadata contract
 //      - make the base token uri: https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/
     constructor() 
-    ERC721Metadata(_name, _symbol, _tokenURI) 
-
-    public
+        ERC721Metadata("Rafiul tOKEN", "rtk", "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/") 
+        public
     {
-
     }
 //  2) create a public mint() that does the following:
 //      -can only be executed by the contract owner
@@ -564,7 +563,8 @@ contract ERC721MintableComplete is ERC721Metadata{
 //      -calls the superclass mint and setTokenURI functions
 function mint(address to, uint256 tokenId) public onlyOwner whenNotPaused returns(bool){
         super._mint(to, tokenId);
-        setTokenURI(tokenId);
+        setTokenURI("https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/", tokenId);
+        return true;
     }
 }
 
