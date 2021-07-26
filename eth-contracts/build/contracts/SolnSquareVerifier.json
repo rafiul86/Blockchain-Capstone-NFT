@@ -9715,14 +9715,141 @@
   },
   "networks": {
     "5777": {
-      "events": {},
+      "events": {
+        "0x078793128cefb19aac38a33f9e5df39f67716907f6d747e8065545699e0b2b8d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "index",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "account",
+              "type": "address"
+            }
+          ],
+          "name": "SolutionAdded",
+          "type": "event",
+          "signature": "0x078793128cefb19aac38a33f9e5df39f67716907f6d747e8065545699e0b2b8d"
+        },
+        "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "tokenId",
+              "type": "uint256"
+            }
+          ],
+          "name": "Transfer",
+          "type": "event",
+          "signature": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+        },
+        "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "approved",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "tokenId",
+              "type": "uint256"
+            }
+          ],
+          "name": "Approval",
+          "type": "event",
+          "signature": "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"
+        },
+        "0x17307eab39ab6107e8899845ad3d59bd9653f200f220920489ca2b5937696c31": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "operator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "approved",
+              "type": "bool"
+            }
+          ],
+          "name": "ApprovalForAll",
+          "type": "event",
+          "signature": "0x17307eab39ab6107e8899845ad3d59bd9653f200f220920489ca2b5937696c31"
+        },
+        "0x62e78cea01bee320cd4e420270b5ea74000d11b0c9f74754ebdbfc544b05a258": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "account",
+              "type": "address"
+            }
+          ],
+          "name": "Paused",
+          "type": "event",
+          "signature": "0x62e78cea01bee320cd4e420270b5ea74000d11b0c9f74754ebdbfc544b05a258"
+        },
+        "0xff2b959f2bcdb44c7ecb4b16dae055431019d7350607125cfc2b74a06632c90e": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "account",
+              "type": "address"
+            }
+          ],
+          "name": "UnPaused",
+          "type": "event",
+          "signature": "0xff2b959f2bcdb44c7ecb4b16dae055431019d7350607125cfc2b74a06632c90e"
+        },
+        "0xcfaaa26691e16e66e73290fc725eee1a6b4e0e693a1640484937aac25ffb55a4": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "toOwner",
+              "type": "address"
+            }
+          ],
+          "name": "TransferOwnership",
+          "type": "event",
+          "signature": "0xcfaaa26691e16e66e73290fc725eee1a6b4e0e693a1640484937aac25ffb55a4"
+        }
+      },
       "links": {},
-      "address": "0xd7cfDb91d96AEFC0Ba466A2f831F991255f64dfE",
-      "transactionHash": "0x43115d1533592c6a7053c5e33ec09344a4e8f1a2db3c2ae106c1bafd746995ac"
+      "address": "0x193e7527e6Cb4b95407CF89ee67d9A9a249878B6",
+      "transactionHash": "0x6dd00a5b325407447e27d5b7dc34c343f96e924184e7aea8da1855a936a510f5"
     }
   },
   "schemaVersion": "3.0.9",
-  "updatedAt": "2021-07-26T04:12:01.380Z",
+  "updatedAt": "2021-07-26T04:13:56.310Z",
   "devdoc": {
     "methods": {
       "isApprovedForAll(address,address)": {
