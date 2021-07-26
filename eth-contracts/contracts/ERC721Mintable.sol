@@ -488,12 +488,12 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
 
     string private _name;
     string private _symbol;
-    string private _baseTokenURI;
+    string private _tokenURI;
     // TODO: create private mapping of tokenId's to token uri's called '_tokenURIs'
         struct  Token{
                 string name;
                 string symbol;
-                string baseTokenURI;
+                string tokenURI;
             }         
 
         mapping(uint256 => Token)private _tokenURIs;
@@ -507,25 +507,25 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
      */
 
 
-    constructor (string memory name, string memory symbol, string memory baseTokenURI) public {
+    constructor (string memory name, string memory symbol, string memory tokenURI) public {
          // TODO: set instance var values
             _name = name;
             _symbol = symbol;
-            _baseTokenURI = baseTokenURI;
+            _tokenURI = tokenURI;
         _registerInterface(_INTERFACE_ID_ERC721_METADATA);
     }
 
     // TODO: create external getter functions for name, symbol, and baseTokenURI
 
-    function returnBaseTokenURI(uint256 tokenId) external view returns (string memory) {
+    function baseTokenURI(uint256 tokenId) external view returns (string memory) {
         require(_exists(tokenId));
-        return _tokenURIs[tokenId].baseTokenURI;
+        return _tokenURIs[tokenId].tokenURI;
     }
-    function returnBaseTokenName(uint256 tokenId) external view returns (string memory) {
+    function name(uint256 tokenId) external view returns (string memory) {
         require(_exists(tokenId));
         return _tokenURIs[tokenId].name;
     }
-    function returnBaseTokenSymbol(uint256 tokenId) external view returns (string memory) {
+    function symbol(uint256 tokenId) external view returns (string memory) {
         require(_exists(tokenId));
         return _tokenURIs[tokenId].symbol;
     }
@@ -539,7 +539,7 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
     // see https://github.com/oraclize/ethereum-api/blob/master/oraclizeAPI_0.5.sol for strConcat()
     function setTokenURI(uint256 tokenId) public{
         require(_exists(tokenId));
-        usingOraclize.strConcat(_tokenURIs[tokenId].baseTokenURI, uint2str(tokenId));
+        usingOraclize.strConcat(_tokenURIs[tokenId].tokenURI, uint2str(tokenId));
     }    
 }
 
@@ -547,11 +547,11 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
 contract ERC721MintableComplete is ERC721Metadata{
     string private _name;
     string private _symbol;
-    string private _baseTokenURI;
+    string private _tokenURI;
 //  1) Pass in appropriate values for the inherited ERC721Metadata contract
 //      - make the base token uri: https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/
     constructor() 
-    ERC721Metadata(_name, _symbol, _baseTokenURI) 
+    ERC721Metadata(_name, _symbol, _tokenURI) 
 
     public
     {
