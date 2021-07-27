@@ -14,35 +14,45 @@ contract Ownable {
      struct InitialToken{
          address tokenOwner;
      }
+    //  1) create a private '_owner' variable of type address with a public getter function
+        address private _owner;
 
      mapping(uint256 => InitialToken) tokens;
     
     //  create an event that emits anytime ownerShip is transfered (including in the constructor)
-        event TransferOwnership(address toOwner);
+        event TransferOwnershipfromCreator(address owner);
+        event TransferOwnership(address oldOwer, address newOwner);
     //  TODO's
-    //  1) create a private '_owner' variable of type address with a public getter function
-        address private _owner;
+    
     //  2) create an internal constructor that sets the _owner var to the creator of the contract 
         constructor()internal{
-            _owner = msg.sender;
-             emit TransferOwnership(_owner);
+           _owner = msg.sender;
+         emit TransferOwnershipfromCreator(_owner);
         }
     //  3) create an 'onlyOwner' modifier that throws if called by any account other than the owner.
         modifier onlyOwner(){
-            require(msg.sender == _owner, "Caller is not owner");
+            require(_owner  == msg.sender , "Caller is not owner");
             _;
         }
+        function renounceOwnership() public onlyOwner {
+        _setOwner(address(0));
+    }
     //  4) fill out the transferOwnership function
          function transferOwnership(address newOwner, uint256 tokenId) public onlyOwner {
             require(newOwner != address(0), "New owner must be a valid address");
             tokens[tokenId].tokenOwner = newOwner;
-            emit TransferOwnership(newOwner);
+            emit TransferOwnership(_owner, newOwner);
         }
 
-        function getOwner(uint256 tokenId) public view returns (address){
+        function owner(uint256 tokenId) public view returns (address){
             require(tokenId != 0, "Please enter an valid token Id");
             return tokens[tokenId].tokenOwner;
         }
+        function _setOwner(address newOwner) private {
+        address oldOwner = _owner;
+        _owner = newOwner;
+        emit TransferOwnership(_owner, newOwner);
+    }
     // function transferOwnership(address newOwner) public onlyOwner {
     //     // TODO add functionality to transfer control of the contract to a newOwner.
     //     // make sure the new owner is a real address
