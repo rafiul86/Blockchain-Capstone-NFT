@@ -87,12 +87,12 @@ contract Ownable {
         
     
         // create  public setter using the inherited onlyOwner modifier 
-        function setPaused () public onlyOwner whenNotPaused returns(bool){
+        function _pause () public onlyOwner whenNotPaused returns(bool){
              _paused = true;
             emit Paused(msg.sender);
         }
 
-        function setOperational () public onlyOwner paused returns(bool){
+        function _unpause () public onlyOwner paused returns(bool){
              _paused = false;
             emit UnPaused(msg.sender);
         }
@@ -274,7 +274,7 @@ contract ERC721 is Pausable, ERC165 {
         // TODO emit Transfer event
             emit Transfer(msg.sender, to, tokenId);
     }
-
+    
     // @dev Internal function to transfer ownership of a given token ID to another address.
     // TIP: remember the functions to use for Counters. you can refresh yourself with the link above
     function _transferFrom(address from, address to, uint256 tokenId) internal  {
@@ -507,7 +507,7 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
             }         
 
         mapping(uint256 => Token) private _tokenURIs;
-
+        
     bytes4 private constant _INTERFACE_ID_ERC721_METADATA = 0x5b5e139f;
     /*
      * 0x5b5e139f ===
@@ -529,7 +529,7 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
 
     // TODO: create external getter functions for name, symbol, and baseTokenURI
 
-    function baseTokenURI(uint256 tokenId) external view returns (string memory) {
+    function baseURI(uint256 tokenId) external view returns (string memory) {
         require(_exists(tokenId));
         return _tokenURIs[tokenId].baseTokenURI;
     }
@@ -541,7 +541,22 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
         require(_exists(tokenId));
         return _tokenURIs[tokenId].symbol;
     }
+    function approve(address to, uint256 tokenId) public {
+        address owner = ERC721.ownerOf(tokenId);
+        require(to != owner, "ERC721: approval to current owner");
 
+        require(
+            msg.sender == owner || isApprovedForAll(owner, msg.sender),
+            "ERC721: approve caller is not owner nor approved for all"
+        );
+
+        approve(to, tokenId);
+    }
+    function tokenURI(string memory baseTokenURI, uint256 tokenId) public returns (string memory){
+        require(_exists(tokenId));
+         string memory result = usingOraclize.strConcat(baseTokenURI, uint2str(tokenId));
+         return result;
+    }
 
     // TODO: Create an internal function to set the tokenURI of a specified tokenId
     // require the token exists before setting
@@ -557,7 +572,12 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
 
 //  TODO's: Create CustomERC721Token contract that inherits from the ERC721Metadata contract. You can name this contract as you please
 contract ERC721Full is ERC721Metadata{
-    
+    string private _name;
+
+    // Token symbol
+    string private _symbol;
+    mapping(address => uint256) private _balances;
+    mapping(uint256 => address) private _owners;
     // bytes4 private constant _INTERFACE_ID_ERC721_METADATA = 0x5b5e139f;
 //  1) Pass in appropriate values for the inherited ERC721Metadata contract
 //      - make the base token uri: https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/
@@ -577,6 +597,28 @@ function mint(address to, uint256 tokenId) public onlyOwner whenNotPaused return
         setTokenURI("https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/", tokenId);
         return true;
     }
+    function balanceOf(address owner) public view returns (uint256) {
+        require(owner != address(0), "ERC721: balance query for the zero address");
+        return _balances[owner];
+    }
+    function _burn(uint256 tokenId) internal {
+        address owner = ERC721.ownerOf(tokenId);
+
+        _beforeTokenTransfer(owner, address(0), tokenId);
+
+        // Clear approvals
+        approve(address(0), tokenId);
+
+        _balances[owner] -= 1;
+        delete _owners[tokenId];
+
+        emit Transfer(owner, address(0), tokenId);
+    }
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 tokenId
+    ) internal  {}
 }
 
 
