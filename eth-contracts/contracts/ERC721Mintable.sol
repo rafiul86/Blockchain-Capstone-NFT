@@ -20,14 +20,14 @@ contract Ownable {
      mapping(uint256 => InitialToken) tokens;
     
     //  create an event that emits anytime ownerShip is transfered (including in the constructor)
-        event TransferOwnershipfromCreator(address owner);
-        event TransferOwnership(address oldOwer, address newOwner);
+        
+        event OwnershipTransferred(address oldOwer, address newOwner);
     //  TODO's
     
     //  2) create an internal constructor that sets the _owner var to the creator of the contract 
         constructor()internal{
            _owner = msg.sender;
-         emit TransferOwnershipfromCreator(_owner);
+         emit OwnershipTransferred(msg.sender , _owner );
         }
     //  3) create an 'onlyOwner' modifier that throws if called by any account other than the owner.
         modifier onlyOwner(){
@@ -41,7 +41,7 @@ contract Ownable {
          function transferOwnership(address newOwner, uint256 tokenId) public onlyOwner {
             require(newOwner != address(0), "New owner must be a valid address");
             tokens[tokenId].tokenOwner = newOwner;
-            emit TransferOwnership(_owner, newOwner);
+            emit OwnershipTransferred(_owner, newOwner);
         }
 
         function owner(uint256 tokenId) public view returns (address){
@@ -51,7 +51,7 @@ contract Ownable {
         function _setOwner(address newOwner) private {
         address oldOwner = _owner;
         _owner = newOwner;
-        emit TransferOwnership(_owner, newOwner);
+        emit OwnershipTransferred(oldOwner, newOwner);
     }
     // function transferOwnership(address newOwner) public onlyOwner {
     //     // TODO add functionality to transfer control of the contract to a newOwner.
