@@ -13,7 +13,7 @@ contract SolnSquareVerifier is ERC721Full{
 
     string  _name;
     string _symbol;
-    constructor(string memory name, string memory symbol, address verifierAddress) 
+    constructor(address verifierAddress, string memory name, string memory symbol) 
       ERC721Full(name, symbol)    
         public
     {   
@@ -49,31 +49,28 @@ function addSolutionsToArray(bytes32 key) public returns(bool){
 
 // TODO Create a function to mint new NFT only after the solution has been verified
 function mintToken(
-            uint256 tokenId,
-            uint256 index, 
-            uint[2] memory a,
-            uint[2][2] memory b,
-            uint[2] memory c,
-            uint[2] memory input)
-
+            address to,
+            uint256 tokenId
+            // uint[2] memory a,
+            // uint[2][2] memory b,
+            // uint[2] memory c,
+            // uint[2] memory input)
+)               
              public
              returns (bool)
               {
+        mint(to,tokenId);
+        return true;
+    // bytes32 key = keccak256(abi.encodePacked(a, b, c, input));
 
-    bytes32 key = keccak256(abi.encodePacked(a, b, c, input));
+    // if(!uniqueSolutions[key].isExist){
+    //   bool verification = squareVerifier.verifyTx(a, b, c,input);
 
-    if(!uniqueSolutions[key].isExist){
-      bool verification = squareVerifier.verifyTx(a, b, c,input);
-
-        if(verification){
-            addSolutionsToArray(key);
-            require(index < totalSupply(), "Invalid Token index");
-            mint(msg.sender,tokenId);
-            //  - make sure you handle metadata as well as tokenSuplly
-            setTokenURI("https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/", tokenId);
-            return true;
-        }
-     }
+    //     if(verification){
+    //         addSolutionsToArray(key);
+    //         // require(index < totalSupply(), "Invalid Token index"); 
+    //         //  - make sure you handle metadata as well as tokenSuplly
+    //     }
+    //   }
     }
 }
-

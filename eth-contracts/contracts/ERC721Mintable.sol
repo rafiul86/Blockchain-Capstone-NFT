@@ -90,11 +90,13 @@ contract Ownable {
         function _pause () public onlyOwner whenNotPaused returns(bool){
              _paused = true;
             emit Paused(msg.sender);
+            return true;
         }
 
         function _unpause () public onlyOwner paused returns(bool){
              _paused = false;
             emit UnPaused(msg.sender);
+            return true;
         }
     }
 
@@ -572,10 +574,11 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
 
 //  TODO's: Create CustomERC721Token contract that inherits from the ERC721Metadata contract. You can name this contract as you please
 contract ERC721Full is ERC721Metadata{
-    string private _name;
 
-    // Token symbol
+    // Token name symbol
+    string private _name;
     string private _symbol;
+    
     mapping(address => uint256) private _balances;
     mapping(uint256 => address) private _owners;
     // bytes4 private constant _INTERFACE_ID_ERC721_METADATA = 0x5b5e139f;
@@ -592,7 +595,7 @@ contract ERC721Full is ERC721Metadata{
 //      -takes in a 'to' address, tokenId, and tokenURI as parameters
 //      -returns a true boolean upon completion of the function
 //      -calls the superclass mint and setTokenURI functions
-function mint(address to, uint256 tokenId) public onlyOwner whenNotPaused returns(bool){
+function mint(address to, uint256 tokenId) public returns(bool){
         super._mint(to, tokenId);
         setTokenURI("https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/", tokenId);
         return true;
@@ -620,5 +623,3 @@ function mint(address to, uint256 tokenId) public onlyOwner whenNotPaused return
         uint256 tokenId
     ) internal  {}
 }
-
-
