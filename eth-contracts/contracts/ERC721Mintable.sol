@@ -234,15 +234,18 @@ contract ERC721 is Pausable, ERC165 {
         require(_isApprovedOrOwner(msg.sender, tokenId));
 
         _transferFrom(from, to, tokenId);
+        emit Transfer(from, to, tokenId);
     }
 
     function safeTransferFrom(address from, address to, uint256 tokenId) public {
         safeTransferFrom(from, to, tokenId, "");
+        emit Transfer(from, to, tokenId);
     }
 
     function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public {
         transferFrom(from, to, tokenId);
         require(_checkOnERC721Received(from, to, tokenId, _data));
+        emit Transfer(from, to, tokenId);
     }
 
     /**
@@ -253,6 +256,7 @@ contract ERC721 is Pausable, ERC165 {
     function _exists(uint256 tokenId) internal view returns (bool) {
         address owner = _tokenOwner[tokenId];
         return owner != address(0);
+        
     }
 
     /**
