@@ -1,3 +1,7 @@
+require('dotenv').config({ path: '/.env' })
+const mnemonic = process.env.MNEMONIC;
+const infurakey = process.env.INFURAKEY
+
 /**
  * Use this file to configure your truffle project. It's seeded with some
  * common settings for different networks and features like migrations,

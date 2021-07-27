@@ -13,8 +13,8 @@ contract SolnSquareVerifier is ERC721Full{
 
     string  _name;
     string _symbol;
-    constructor(address verifierAddress, string memory name, string memory symbol) 
-      ERC721Full(name, symbol)    
+    constructor(address verifierAddress) 
+      ERC721Full()    
         public
     {   
         squareVerifier = Verifier(verifierAddress);

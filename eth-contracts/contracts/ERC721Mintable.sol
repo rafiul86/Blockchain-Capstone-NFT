@@ -6,6 +6,9 @@ import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
 import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
 // import 'openzeppelin-solidity/contracts/lifecycle/Pausable.sol';
 import 'openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol';
+import 'openzeppelin-solidity/contracts/GSN/Context.sol';
+import 'openzeppelin-solidity/contracts/token/ERC721/IERC721.sol';
+import 'openzeppelin-solidity/contracts/token/ERC721/IERC721Metadata.sol';
 // import 'openzeppelin-solidity/contracts/lifecycle/IERC721.sol';
 import "./Oraclize.sol";
 
@@ -573,23 +576,16 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
 }
 
 //  TODO's: Create CustomERC721Token contract that inherits from the ERC721Metadata contract. You can name this contract as you please
-contract ERC721Full is ERC721Metadata{
+contract ERC721Full is ERC721Metadata("RafiulToken", "RTN", "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/") {
 
-    // Token name symbol
-    string private _name;
-    string private _symbol;
+  
     
     mapping(address => uint256) private _balances;
     mapping(uint256 => address) private _owners;
     // bytes4 private constant _INTERFACE_ID_ERC721_METADATA = 0x5b5e139f;
 //  1) Pass in appropriate values for the inherited ERC721Metadata contract
 //      - make the base token uri: https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/
-    constructor(string memory name,
-                string memory symbol) 
-        ERC721Metadata(name, symbol, "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/") 
-        public
-    {
-    }
+  
 //  2) create a public mint() that does the following:
 //      -can only be executed by the contract owner
 //      -takes in a 'to' address, tokenId, and tokenURI as parameters
@@ -623,3 +619,4 @@ function mint(address to, uint256 tokenId) public returns(bool){
         uint256 tokenId
     ) internal  {}
 }
+
