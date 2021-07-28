@@ -155,6 +155,8 @@ contract ERC721 is Pausable, ERC165 {
     // Mapping from token ID to owner
     mapping (uint256 => address) private _tokenOwner;
 
+    mapping (address => uint256 ) balances;
+
     // Mapping from token ID to approved address
     mapping (uint256 => address) private _tokenApprovals;
 
@@ -176,7 +178,7 @@ contract ERC721 is Pausable, ERC165 {
 
     function balanceOf(address owner) public view returns (uint256) {
         // TODO return the token balance of given address
-        Counters.current(_ownedTokensCount[owner]);
+        return balances[owner];
         // TIP: remember the functions to use for Counters. you can refresh yourself with the link above
     }
 
