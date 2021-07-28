@@ -58,7 +58,7 @@ function mintToken(
              public
              returns (bool)
               {
-        mint(to,tokenId);
+        super.safeMint(to,tokenId);
         return true;
     // bytes32 key = keccak256(abi.encodePacked(a, b, c, input));
 

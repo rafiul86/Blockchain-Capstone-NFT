@@ -3,25 +3,21 @@ pragma solidity >=0.5.0;
 import 'openzeppelin-solidity/contracts/utils/Address.sol';
 import 'openzeppelin-solidity/contracts/drafts/Counters.sol';
 import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
-import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
-// import 'openzeppelin-solidity/contracts/lifecycle/Pausable.sol';
 import 'openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol';
 import 'openzeppelin-solidity/contracts/GSN/Context.sol';
 import 'openzeppelin-solidity/contracts/token/ERC721/IERC721.sol';
 import 'openzeppelin-solidity/contracts/token/ERC721/IERC721Metadata.sol';
-// import 'openzeppelin-solidity/contracts/lifecycle/IERC721.sol';
 import "./Oraclize.sol";
+// import 'openzeppelin-solidity/contracts/lifecycle/IERC721.sol';
+// import 'openzeppelin-solidity/contracts/lifecycle/Pausable.sol';
+
 
 contract Ownable {
 
-     struct InitialToken{
-         address tokenOwner;
-     }
+ 
     //  1) create a private '_owner' variable of type address with a public getter function
+        
         address private _owner;
-
-     mapping(uint256 => InitialToken) tokens;
-    
     //  create an event that emits anytime ownerShip is transfered (including in the constructor)
         
         event OwnershipTransferred(address oldOwer, address newOwner);
@@ -32,30 +28,32 @@ contract Ownable {
            _owner = msg.sender;
          emit OwnershipTransferred(msg.sender , _owner );
         }
+
+        function owner() public view returns (address) {
+        return _owner;
+        }
     //  3) create an 'onlyOwner' modifier that throws if called by any account other than the owner.
         modifier onlyOwner(){
-            require(_owner  == msg.sender , "Caller is not owner");
+            require(msg.sender == _owner  , "Caller is not owner");
             _;
         }
         function renounceOwnership() public onlyOwner {
         _setOwner(address(0));
     }
     //  4) fill out the transferOwnership function
-         function transferOwnership(address newOwner, uint256 tokenId) public onlyOwner {
-            require(newOwner != address(0), "New owner must be a valid address");
-            tokens[tokenId].tokenOwner = newOwner;
-            emit OwnershipTransferred(_owner, newOwner);
+         function transferOwnership(address newOwner) public onlyOwner {
+        require(newOwner != address(0), "Ownable: new owner is the zero address");
+        address oldOwner = _owner;
+        _setOwner(newOwner);
+        emit OwnershipTransferred(oldOwner, newOwner);
         }
 
-        function owner(uint256 tokenId) public view returns (address){
-            require(tokenId != 0, "Please enter an valid token Id");
-            return tokens[tokenId].tokenOwner;
-        }
+     
         function _setOwner(address newOwner) private {
         address oldOwner = _owner;
         _owner = newOwner;
         emit OwnershipTransferred(oldOwner, newOwner);
-    }
+        }
     // function transferOwnership(address newOwner) public onlyOwner {
     //     // TODO add functionality to transfer control of the contract to a newOwner.
     //     // make sure the new owner is a real address
@@ -67,40 +65,38 @@ contract Ownable {
     contract  Pausable is Ownable {
 
         //  create a private '_paused' variable of type bool
-             bool _paused;
+             bool private _paused;
         //  create a Paused & Unpaused event that emits the address that triggered the event
-             event Paused(address account);
+             event Paused(address setter);
 
-             event UnPaused(address account);
+             event Unpaused(address setter);
 
         //  create an internal constructor that sets the _paused variable to false
               constructor () internal {
-            _paused = false;
-        }
+             _paused = false;
+             }
         //  create 'whenNotPaused' & 'paused' modifier that throws in the appropriate situation
         modifier whenNotPaused () {
-            require(!_paused, "paused status must be different than current");
+            require(_paused == false, "paused status must be different than current");
             _;
         }
 
-        modifier paused () {
-            require(_paused, "paused status must be different than current");
+        modifier whenPaused () {
+            require(_paused == true, "paused status must be different than current");
             _;
         }
         
     
         // create  public setter using the inherited onlyOwner modifier 
-        function _pause () public onlyOwner whenNotPaused returns(bool){
-             _paused = true;
-            emit Paused(msg.sender);
-            return true;
+        function _pause() internal onlyOwner whenNotPaused {
+        _paused = true;
+        emit Paused(msg.sender);
         }
 
-        function _unpause () public onlyOwner paused returns(bool){
-             _paused = false;
-            emit UnPaused(msg.sender);
-            return true;
-        }
+        function _unpause() internal onlyOwner whenPaused {
+        _paused = false;
+        emit Unpaused(msg.sender);
+         }
     }
 
 
@@ -276,7 +272,7 @@ contract ERC721 is Pausable, ERC165 {
     function _mint(address to, uint256 tokenId) internal {
 
         // TODO revert if given tokenId already exists or given address is invalid
-            require(_exists(tokenId), "tokenId already exists or given address is invalid");
+            require(!_exists(tokenId), "tokenId already exists or given address is invalid");
         // TODO mint tokenId to given address & increase token count of owner
             _tokenOwner[tokenId] = to;
             Counters.increment(_ownedTokensCount[to]);
@@ -409,7 +405,7 @@ contract ERC721Enumerable is ERC165, ERC721 {
      * @param to address the beneficiary that will own the minted token
      * @param tokenId uint256 ID of the token to be minted
      */
-    function _mint(address to, uint256 tokenId) internal {
+    function _safeMint(address to, uint256 tokenId) internal {
         super._mint(to, tokenId);
 
         _addTokenToOwnerEnumeration(to, tokenId);
@@ -598,8 +594,8 @@ contract ERC721Full is ERC721Metadata {
 //      -takes in a 'to' address, tokenId, and tokenURI as parameters
 //      -returns a true boolean upon completion of the function
 //      -calls the superclass mint and setTokenURI functions
-function mint(address to, uint256 tokenId) public returns(bool){
-        super._mint(to, tokenId);
+function safeMint(address to, uint256 tokenId) public returns(bool){
+        super._safeMint(to, tokenId);
         setTokenURI("https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/", tokenId);
         return true;
     }
