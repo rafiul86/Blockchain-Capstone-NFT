@@ -2,7 +2,8 @@
 
 
 ##### STOREFRONT LINK 
-![Link](https://testnets.opensea.io/assets/rafiultoken)
+
+![Opensea storefront NFT](https://testnets.opensea.io/assets/rafiultoken)
 
 ![Opensea storefront NFT](https://user-images.githubusercontent.com/68476971/127298289-0d662016-c41c-4795-944d-a0e58576635a.png)
 The capstone is a decentralized housing product.
