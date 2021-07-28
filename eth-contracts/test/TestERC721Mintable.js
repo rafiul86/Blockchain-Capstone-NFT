@@ -1,5 +1,5 @@
 
-var ERC721Mintable = artifacts.require('ERC721MintableComplete');
+var ERC721Mintable = artifacts.require('ERC721Full');
 var BigNumber = require('bignumber.js');
 
 

@@ -45,7 +45,7 @@ module.exports = {
     // You should run a client (like ganache-cli, geth or parity) in a separate terminal
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
-    //
+    //"spider void emerge pyramid pluck brief nurse become useless ridge squeeze when", "https://rinkeby.infura.io/v3/12df196bcfcb4bd583785b1a615aef47"
     rinkeby : {
       provider : function(){
         return new HDWalletProvider()
