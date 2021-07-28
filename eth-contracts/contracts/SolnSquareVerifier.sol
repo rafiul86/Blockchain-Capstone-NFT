@@ -54,7 +54,7 @@ function mintToken(
             // uint[2][2] memory b,
             // uint[2] memory c,
             // uint[2] memory input)
-)               
+                )               
              public
              returns (bool)
               {
