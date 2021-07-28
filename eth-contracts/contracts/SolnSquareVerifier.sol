@@ -49,27 +49,28 @@ function addSolutionsToArray(bytes32 key) public returns(bool){
 // TODO Create a function to mint new NFT only after the solution has been verified
 function mintToken(
             address to,
-            uint256 tokenId
-            // uint[2] memory a,
-            // uint[2][2] memory b,
-            // uint[2] memory c,
-            // uint[2] memory input)
+            uint256 tokenId,
+            uint[2] memory a,
+            uint[2][2] memory b,
+            uint[2] memory c,
+            uint[2] memory input
                 )               
              public
              returns (bool)
               {
-        super.safeMint(to,tokenId);
-        return true;
-    // bytes32 key = keccak256(abi.encodePacked(a, b, c, input));
+        
+    bytes32 key = keccak256(abi.encodePacked(a, b, c, input));
 
-    // if(!uniqueSolutions[key].isExist){
-    //   bool verification = squareVerifier.verifyTx(a, b, c,input);
+    if(!uniqueSolutions[key].isExist){
+      bool verification = squareVerifier.verifyTx(a, b, c,input);
 
-    //     if(verification){
-    //         addSolutionsToArray(key);
-    //         // require(index < totalSupply(), "Invalid Token index"); 
-    //         //  - make sure you handle metadata as well as tokenSuplly
-    //     }
-    //   }
+        if(verification){
+            addSolutionsToArray(key);
+        //  - make sure you handle metadata as well as tokenSuplly
+            super.safeMint(to,tokenId);
+            return true;
+            
+        }
+      }
     }
 }
